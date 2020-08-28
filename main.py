@@ -1,3 +1,5 @@
+# Simple template for data read and create charts.
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -7,6 +9,7 @@ from os import walk
 def main():
     mypath = 'data'
 
+    # Go trought the directory and print dirpath, dirname and filenames
     f = []
     for (dirpath, dirnames, filenames) in walk(mypath):
         f.extend(filenames)
@@ -23,6 +26,7 @@ def main():
     temp_range = []
     press = []
 
+    # Split the filename to the separate words.
     for item in filenames:
         if item.endswith('.txt'):
             item = item[:-4]
@@ -43,14 +47,8 @@ def main():
             p = p[:-3]
         press.append(int(p[0]))
 
-    # print(f'Naplnene elements: {elements}')
-    # print(f'Naplnene pressure: {pressure}')
-    # print(f'Naplnene temperature: {temp_range}')
-    # print(f'Min temperature: {temp_min}')
-    # print(f'Max temperature: {temp_max}')
-    # print(f'Pressure: {press}, type of press: {type(press[0])}')
 
-    # odtialto zacneme slucku vypoctu pre rozne vstupne data
+    # Read the data from data folder. Return DataFrame
     file = dirpath + '/' + filenames[0]
     data = pd.read_csv(file,  sep='\t+', engine='python', index_col=False)  # , delimiter='\t' , delim_whitespace=True
     print(data.columns)
@@ -59,6 +57,7 @@ def main():
     x = data['Temperature (K)']
     y = data['Density (mol/l)']
 
+    # Create the figure from data.
     fig, ax = plt.subplots(1, 1)
     ax.plot(x, y, '-b', label='Temperature', linewidth=0.8)
 
